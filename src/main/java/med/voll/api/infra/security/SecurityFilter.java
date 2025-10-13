@@ -23,17 +23,27 @@ public class SecurityFilter extends OncePerRequestFilter {
             jakarta.servlet.http.HttpServletResponse response, jakarta.servlet.FilterChain filterChain)
             throws jakarta.servlet.ServletException, java.io.IOException {
 
+                System.out.println("=== SecurityFilter ===");
+                System.out.println("URI: " + request.getRequestURI());
+                System.out.println("Method: " + request.getMethod());
+
                 var tokenJWT = recuperarToken(request);
+                System.out.println("Token recuperado: " + (tokenJWT != null ? "SIM" : "NÃO"));
+
                 if (tokenJWT != null) {
                     try {
                         var subject = tokenService.getSubject(tokenJWT);
+                        System.out.println("Subject extraído: " + subject);
+
                         var usuario = usuarioRepository.findByNome(subject);
+                        System.out.println("Usuário encontrado: " + (usuario != null ? usuario.getNome() : "NULL"));
 
                         var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
                         SecurityContextHolder.getContext().setAuthentication(authentication);
+                        System.out.println("Autenticação realizada com sucesso!");
                     } catch (RuntimeException e) {
-                        // Token inválido ou expirado - não autentica o usuário
-                        // O Spring Security bloqueará a requisição automaticamente
+                        System.out.println("ERRO ao validar token: " + e.getMessage());
+                        e.printStackTrace();
                     }
                 }
 
