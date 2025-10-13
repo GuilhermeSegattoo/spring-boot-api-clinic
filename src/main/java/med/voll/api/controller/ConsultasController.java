@@ -1,5 +1,6 @@
 package med.voll.api.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import med.voll.api.domain.consulta.DadosDetalhamentoConsulta;
 @RequestMapping("/consultas")
 public class ConsultasController {
 
+    @Autowired
     private AgendaConsultas agenda;
     @PostMapping
     public ResponseEntity agendar(@RequestBody @Valid DadosAgendamentoConsulta dados){
