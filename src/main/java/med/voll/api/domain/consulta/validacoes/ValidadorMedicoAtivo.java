@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import med.voll.api.domain.consulta.DadosAgendamentoConsulta;
 import med.voll.api.domain.medico.MedicoRepository;
+import med.voll.api.infra.exception.ValidacaoException;
 
 @Component
 public class ValidadorMedicoAtivo implements ValidadorAgendamentoDeConsulta {
@@ -19,7 +20,7 @@ public class ValidadorMedicoAtivo implements ValidadorAgendamentoDeConsulta {
 
         var medicoOptional = repository.findById(dados.idMedico());
         if (medicoOptional.isEmpty() || !medicoOptional.get().getAtivo()) {
-            throw new RuntimeException("Consulta não pode ser agendada com médico excluído ou inativo");
+            throw new ValidacaoException("Consulta não pode ser agendada com médico excluído ou inativo");
         }
 }
 

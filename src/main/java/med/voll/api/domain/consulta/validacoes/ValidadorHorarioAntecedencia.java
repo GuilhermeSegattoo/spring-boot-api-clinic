@@ -3,6 +3,7 @@ package med.voll.api.domain.consulta.validacoes;
 import org.springframework.stereotype.Component;
 
 import med.voll.api.domain.consulta.DadosAgendamentoConsulta;
+import med.voll.api.infra.exception.ValidacaoException;
 
 @Component
 public class ValidadorHorarioAntecedencia implements ValidadorAgendamentoDeConsulta {
@@ -12,7 +13,7 @@ public class ValidadorHorarioAntecedencia implements ValidadorAgendamentoDeConsu
         var diferencaEmMinutos = java.time.Duration.between(agora, dataConsulta).toMinutes();
 
         if (diferencaEmMinutos < 30) {
-            throw new RuntimeException("Consulta deve ser agendada com antecedência mínima de 30 minutos");
+            throw new ValidacaoException("Consulta deve ser agendada com antecedência mínima de 30 minutos");
         }
     }
 }

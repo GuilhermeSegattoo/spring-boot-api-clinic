@@ -40,6 +40,10 @@ public class AgendaConsultas {
 
     var paciente = pacienteRepository.getReferenceById(dados.idPaciente());
     var medico = escolherMedico(dados);
+    if (medico == null) {
+      throw new RuntimeException("Não existe médico disponível nessa data.");
+      
+    }
 
     var consulta = new Consulta(null, medico, paciente, dados.data(), null);
     repository.save(consulta);
